@@ -10,5 +10,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-rtti")
 add_executable(algorithms
     src/algorithms.h
     src/main.cpp
+    src/rb_tree.h
     src/sorting_algorithms.h
 )
