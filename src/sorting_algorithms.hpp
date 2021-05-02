@@ -1,5 +1,5 @@
-#ifndef SORTING_ALGORITHMS_H
-#define SORTING_ALGORITHMS_H
+#ifndef SORTING_ALGORITHMS_HPP
+#define SORTING_ALGORITHMS_HPP
 
 #include <algorithm>
 
@@ -86,4 +86,4 @@ void quick_sort(It begin, It end, Predicate pred = Predicate())
 }
 
 
-#endif // SORTING_ALGORITHMS_H
+#endif // SORTING_ALGORITHMS_HPP

@@ -1,5 +1,5 @@
-#ifndef RB_TREE_H
-#define RB_TREE_H
+#ifndef RB_TREE_HPP
+#define RB_TREE_HPP
 
 #include <algorithm> // max, min
 #include <memory>
@@ -452,4 +452,4 @@ private:
 };
 
 
-#endif // RB_TREE_H
+#endif // RB_TREE_HPP

@@ -1,5 +1,5 @@
-#ifndef ALGORITHMS_H
-#define ALGORITHMS_H
+#ifndef ALGORITHMS_HPP
+#define ALGORITHMS_HPP
 
 #include <functional>
 
@@ -25,4 +25,4 @@ T median(const T &a, const T &b, const T &c, Predicate pred = Predicate())
     return b;
 }
 
-#endif // ALGORITHMS_H
+#endif // ALGORITHMS_HPP
