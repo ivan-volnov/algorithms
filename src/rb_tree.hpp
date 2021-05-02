@@ -121,7 +121,7 @@ public:
 
     inline ~RedBlackTree()
     {
-        delete root;
+        delete root_;
     }
 
 
@@ -144,20 +144,20 @@ public:
     // capacity
     inline bool empty() const noexcept
     {
-        assert(root == nullptr or tree_size > 0);
-        return root == nullptr;
+        assert(root_ == nullptr or tree_size_ > 0);
+        return root_ == nullptr;
     }
 
     inline size_t size() const noexcept
     {
-        return tree_size;
+        return tree_size_;
     }
 
 
     // modifiers
     inline void clear() MAYTHROW
     {
-        delete root;
+        delete root_;
     }
 
     inline std::pair<Node *, bool> insert(const Key &key, const Value &value) MAYTHROW // TODO: iterators
@@ -210,7 +210,7 @@ public:
         node->left = nullptr;
         node->right = nullptr;
         delete node;
-        if (removed_black and root != nullptr) {
+        if (removed_black and root_ != nullptr) {
             // reballance tree after deletion
             if (balancing != nullptr) {
                 balancing->color = Color::Black;
@@ -227,7 +227,7 @@ public:
                         if (is_black_node(sibling->left) and is_black_node(sibling->right)) {
                             sibling->color = Color::Red;
                             balancing = sibling->parent;
-                            if (balancing == root or balancing->color == Color::Red) {
+                            if (balancing == root_ or balancing->color == Color::Red) {
                                 balancing->color = Color::Black;
                                 break;
                             }
@@ -258,7 +258,7 @@ public:
                         if (is_black_node(sibling->left) and is_black_node(sibling->right)) {
                             sibling->color = Color::Red;
                             balancing = sibling->parent;
-                            if (balancing->color == Color::Red or balancing == root) {
+                            if (balancing->color == Color::Red or balancing == root_) {
                                 balancing->color = Color::Black;
                                 break;
                             }
@@ -282,7 +282,7 @@ public:
                 } // while
             }
         }
-        --tree_size;
+        --tree_size_;
     }
 
 
@@ -294,12 +294,12 @@ public:
 
     inline Node *find(const Key &key) const noexcept // TODO: iterators
     {
-        auto node = root;
+        auto node = root_;
         while (node != nullptr) {
-            if (cmp(node->key, key)) {
+            if (cmp_(node->key, key)) {
                 node = node->right;
             }
-            else if (cmp(key, node->key)) {
+            else if (cmp_(key, node->key)) {
                 node = node->left;
             }
             else { // ==
@@ -318,12 +318,12 @@ public:
     // testcase
     void check() const noexcept
     {
-        if (root != nullptr) {
-            assert(root->color == Color::Black);
-            assert(root->parent == nullptr);
+        if (root_ != nullptr) {
+            assert(root_->color == Color::Black);
+            assert(root_->parent == nullptr);
             int maxh = 0;
             int minh = 0;
-            root->check(maxh, minh);
+            root_->check(maxh, minh);
         }
     }
 
@@ -343,7 +343,7 @@ private:
     inline void transplant(Node *branch, Node *node) noexcept
     {
         if (branch->parent == nullptr) {
-            root = node;
+            root_ = node;
         }
         else if (branch->is_right_child()) {
             branch->parent->right = node;
@@ -385,13 +385,13 @@ private:
     std::pair<Node *, bool> find_or_insert(const Key &key) MAYTHROW
     {
         Node *node = nullptr;
-        Node **ptr = &root;
+        Node **ptr = &root_;
         while (*ptr != nullptr) {
             node = *ptr;
-            if (cmp(node->key, key)) {
+            if (cmp_(node->key, key)) {
                 ptr = &node->right;
             }
-            else if (cmp(key, node->key)) {
+            else if (cmp_(key, node->key)) {
                 ptr = &node->left;
             }
             else { // ==
@@ -401,7 +401,7 @@ private:
         *ptr = new Node(key, node);
         node = *ptr;
         auto result = std::make_pair(node, true);
-        ++tree_size;
+        ++tree_size_;
         // reballance tree after insertion
         while (is_red_node(node->parent)) {
             // if we have a red parent, we must have a grandparent
@@ -441,14 +441,14 @@ private:
                 }
             }
         }
-        root->color = Color::Black;
+        root_->color = Color::Black;
         return result;
     }
 
 private:
-    Node *root = nullptr;
-    size_t tree_size = 0;
-    Comparator cmp;
+    Node *root_ = nullptr;
+    size_t tree_size_ = 0;
+    Comparator cmp_;
 };
 
 

@@ -4,7 +4,7 @@
 #include <cassert>
 
 
-template<class T, size_t N>
+template <class T, size_t N>
 class StaticStack
 {
 public:
@@ -15,44 +15,44 @@ public:
 
     T &operator[] (size_t idx)
     {
-        return _stack[idx];
+        return data_[idx];
     }
 
     const T &operator[] (size_t idx) const
     {
-        return _stack[idx];
+        return data_[idx];
     }
 
     T *begin()
     {
-        return _stack;
+        return data_;
     }
 
     T *end()
     {
-        return _stack + head;
+        return data_ + head_;
     }
 
     void store(T &&value)
     {
-        assert(head < N);
-        _stack[head++] = std::forward<T>(value);
+        assert(head_ < N);
+        data_[head_++] = std::forward<T>(value);
     }
 
     T take()
     {
-        assert(head > 0);
-        return std::move(_stack[--head]);
+        assert(head_ > 0);
+        return std::move(data_[--head_]);
     }
 
     void pop()
     {
-        --head;
+        --head_;
     }
 
     T &top()
     {
-        return _stack[head - 1];
+        return data_[head_ - 1];
     }
 
     size_t capacity() const
@@ -62,22 +62,22 @@ public:
 
     size_t size() const
     {
-        return head;
+        return head_;
     }
 
     bool have_space() const
     {
-        return head < N;
+        return head_ < N;
     }
 
     bool empty() const
     {
-        return !head;
+        return !head_;
     }
 
 private:
-    size_t head = 0;
-    T _stack[N];
+    size_t head_ = 0;
+    T data_[N];
 };
 
 #endif // STATIC_STACK_HPP

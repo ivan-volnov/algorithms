@@ -4,7 +4,7 @@
 #include <cassert>
 
 
-template <typename T, size_t N>
+template <class T, size_t N>
 class StaticCircularBuffer
 {
 public:
@@ -15,21 +15,21 @@ public:
 
     void store(T &&elem)
     {
-        assert(m_length < N);
-        m_buffer[m_head] = std::forward<T>(elem);
-        m_head = (m_head + 1) % N;
-        ++m_length;
+        assert(size_ < N);
+        data_[head_] = std::forward<T>(elem);
+        head_ = (head_ + 1) % N;
+        ++size_;
     }
 
     T take()
     {
-        assert(m_length > 0);
-        return std::move(m_buffer[(N - m_length-- + m_head) % N]);
+        assert(size_ > 0);
+        return std::move(data_[(N - size_-- + head_) % N]);
     }
 
     void clear()
     {
-        m_head = m_length = 0;
+        head_ = size_ = 0;
     }
 
     size_t capacity()
@@ -39,23 +39,23 @@ public:
 
     size_t size()
     {
-        return m_length;
+        return size_;
     }
 
     bool have_space() const
     {
-        return m_length < N;
+        return size_ < N;
     }
 
     bool empty() const
     {
-        return !m_length;
+        return !size_;
     }
 
 private:
-    size_t m_head = 0;
-    size_t m_length = 0;
-    T m_buffer[N];
+    size_t head_ = 0;
+    size_t size_ = 0;
+    T data_[N];
 };
 
 #endif // STATIC_CIRCULAR_BUFFER_HPP
